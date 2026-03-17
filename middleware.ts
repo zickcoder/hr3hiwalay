@@ -69,7 +69,7 @@ export async function middleware(request: NextRequest) {
         if (request.nextUrl.pathname.endsWith('/login')) {
             return response
         }
-        return NextResponse.redirect(new URL('/', request.url))
+        return NextResponse.redirect(new URL('/hr3/login', request.url))
     }
 
     return response
