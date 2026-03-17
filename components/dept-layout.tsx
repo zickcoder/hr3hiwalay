@@ -11,7 +11,7 @@ export default async function DepartmentLayout({
     departmentId: number
     departmentName: string
 }) {
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     const displayName = user?.email || 'Test Admin'

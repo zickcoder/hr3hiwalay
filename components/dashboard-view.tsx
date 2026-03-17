@@ -5,8 +5,8 @@ import { Button, Card } from '@/components/ui-minimal'
 import { LogOut, Home, User, Settings, LayoutDashboard } from 'lucide-react'
 
 export default async function DashboardPage({ departmentId }: { departmentId: number }) {
-    const supabase = createClient()
-    const cookieStore = cookies()
+    const supabase = await createClient()
+    const cookieStore = await cookies()
     const isBypass = cookieStore.get('test_auth_bypass')?.value === 'true'
     const bypassDept = cookieStore.get('test_dept_id')?.value
 
