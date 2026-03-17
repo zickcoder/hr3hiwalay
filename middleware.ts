@@ -58,18 +58,22 @@ export async function middleware(request: NextRequest) {
 
     const isBypass = request.cookies.get('test_auth_bypass')?.value === 'true'
 
-    // Protect /hr routes
-    if (!user && !isBypass && (
-        request.nextUrl.pathname.startsWith('/hr1') ||
+    // Protect HR and ESS routes
+    const isHrRoute = request.nextUrl.pathname.startsWith('/hr1') ||
         request.nextUrl.pathname.startsWith('/hr2') ||
         request.nextUrl.pathname.startsWith('/hr3') ||
         request.nextUrl.pathname.startsWith('/hr4')
-    )) {
+    const isEssRoute = request.nextUrl.pathname.startsWith('/ess')
+
+    if (!user && !isBypass && (isHrRoute || isEssRoute)) {
         // Check if it's the login page, if so, allow access
         if (request.nextUrl.pathname.endsWith('/login')) {
             return response
         }
-        return NextResponse.redirect(new URL('/hr3/login', request.url))
+
+        // Redirect to appropriate login page
+        const redirectPath = isEssRoute ? '/ess/login' : '/hr3/login'
+        return NextResponse.redirect(new URL(redirectPath, request.url))
     }
 
     return response
